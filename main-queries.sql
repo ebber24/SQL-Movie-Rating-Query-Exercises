@@ -1,14 +1,14 @@
 -- Q01 Find the titles of all movies directed by Steven Spielberg.
 
 SELECT title
-FROM   movie
+FROM   Movie
 WHERE  director = "Steven Spielberg"; 
 
 -- Q02 Find all years that have a movie that received a rating of 4 or 5, and sort them in increasing order.
 
 SELECT DISTINCT year
-FROM   movie M
-       INNER JOIN rating R
+FROM   Movie M
+       INNER JOIN Rating R
                ON M.mID = R.mID
 WHERE  stars = 4
         OR stars = 5
@@ -17,16 +17,16 @@ ORDER  BY year;
 -- Q03 Find the titles of all movies that have no ratings.
 
 SELECT title
-FROM   movie M
+FROM   Movie M
 WHERE  M.mID NOT IN (SELECT R.mID
                      FROM   rating R); 
 
 -- Q04 Some reviewers didn't provide a date with their rating. Find the names of all reviewers who have ratings with a NULL value for the date.
 
 SELECT Re.name
-FROM   movie M,
-       reviewer Re,
-       rating Ra
+FROM   Movie M,
+       Reviewer Re,
+       Rating Ra
 WHERE  M.mID = Ra.mID
        AND Re.rID = Ra.rID
        AND ( ratingdate IS NULL ); 
@@ -37,9 +37,9 @@ SELECT Re.name,
        title,
        stars,
        ratingdate
-FROM   movie M,
-       reviewer Re,
-       rating Ra
+FROM   Movie M,
+       Reviewer Re,
+       Rating Ra
 WHERE  M.mID = Ra.mID
        AND Re.rID = Ra.riID
 ORDER  BY Re.NAME,
@@ -50,10 +50,10 @@ ORDER  BY Re.NAME,
 
 SELECT name,
        title
-FROM   movie
-       INNER JOIN rating R1 using(mID)
-       INNER JOIN rating R2 using(rID)
-       INNER JOIN reviewer using(rID)
+FROM   Movie
+       INNER JOIN Rating R1 using(mID)
+       INNER JOIN Rating R2 using(rID)
+       INNER JOIN Reviewer using(rID)
 WHERE  R1.mID = R2.mID
        AND R1.ratingdate < R2.ratingdate
        AND R1.stars < R2.stars; 
@@ -62,8 +62,8 @@ WHERE  R1.mID = R2.mID
 
 SELECT title,
        Max(stars)
-FROM   movie M,
-       rating Ra
+FROM   Movie M,
+       Rating Ra
 WHERE  M.mID = Ra.mID
 GROUP  BY title
 ORDER  BY title; 
@@ -72,8 +72,8 @@ ORDER  BY title;
 
 SELECT M.title,
        Max(stars) - Min(stars) AS ratingspread
-FROM   movie M,
-       rating Ra
+FROM   Movie M,
+       Rating Ra
 WHERE  M.mID = Ra.mID
 GROUP  BY M.title
 ORDER  BY ratingspread DESC,
@@ -86,9 +86,9 @@ FROM  (SELECT Avg(stars) AS pre1980
        FROM   (SELECT title,
                       Avg(stars) AS stars,
                       year
-               FROM   movie M,
-                      reviewer Re,
-                      rating Ra
+               FROM   Movie M,
+                      Reviewer Re,
+                      Rating Ra
                WHERE  M.mID = Ra.mID
                       AND Re.rID = Ra.rID
                       AND ( year < 1980 )
@@ -97,9 +97,9 @@ FROM  (SELECT Avg(stars) AS pre1980
        FROM   (SELECT title,
                       Avg(stars) AS newstars,
                       year
-               FROM   movie M,
-                      reviewer Re,
-                      rating Ra
+               FROM   Movie M,
+                      Reviewer Re,
+                      Rating Ra
                WHERE  M.mID = Ra.mID
                       AND Re.rID = Ra.rID
                       AND ( year > 1980 )
