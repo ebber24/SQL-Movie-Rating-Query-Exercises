@@ -6,11 +6,11 @@ VALUES      (209,
              
 -- Q02 For all movies that have an average rating of 4 stars or higher, add 25 to the release year. (Update the existing tuples; don't insert new tuples.)
 
-UPDATE movie
+UPDATE Movie
 SET    year = year + 25
-WHERE  mid IN (SELECT mID
-               FROM   movie
-                      INNER JOIN rating using (mID)
+WHERE  mID IN (SELECT mID
+               FROM   Movie
+                      INNER JOIN Rating using (mID)
                GROUP  BY title
                HAVING Avg(stars) >= 4) 
 
@@ -18,7 +18,7 @@ WHERE  mid IN (SELECT mID
 
 DELETE FROM Rating
 WHERE  mID IN(SELECT mID
-              FROM   movie
+              FROM   Movie
               WHERE  year > 1970
                       OR year > 2000)
        AND stars < 4; 
