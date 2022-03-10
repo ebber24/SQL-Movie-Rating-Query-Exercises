@@ -1,6 +1,6 @@
 -- Q01 Find the names of all reviewers who rated Gone with the Wind.
 
-SELECT DISTINCT NAME
+SELECT DISTINCT name
 FROM   movie,
        rating,
        reviewer
@@ -10,7 +10,7 @@ WHERE  movie.mID = rating.mID
   
 -- Q02 For any rating where the reviewer is the same as the director of the movie, return the reviewer name, movie title, and number of stars.
   
-SELECT NAME,
+SELECT name,
        title,
        stars
 FROM   movie,
@@ -18,11 +18,11 @@ FROM   movie,
        reviewer
 WHERE  movie.mID = rating.mID
        AND reviewer.rID = rating.rID
-       AND director = NAME; 
+       AND director = name; 
 
 -- Q03 Return all reviewer names and movie names together in a single list, alphabetized. (Sorting by the first name of the reviewer and first word in the title is fine; no need for special processing on last names or removing "The".)
 
-SELECT NAME
+SELECT name
 FROM   reviewer
 UNION
 SELECT title
@@ -36,12 +36,12 @@ FROM   movie
 WHERE  mID NOT IN (SELECT mID
                    FROM   rating
                           INNER JOIN reviewer using (rID)
-                   WHERE  NAME = "chris jackson"); 
+                   WHERE  NAME = "Chris Jackson"); 
         
 -- Q05 For all pairs of reviewers such that both reviewers gave a rating to the same movie, return the names of both reviewers. Eliminate duplicates, don't pair reviewers with themselves, and include each pair only once. For each pair, return the names in the pair in alphabetical order.
   
-SELECT DISTINCT RE1.NAME,
-                RE2.NAME
+SELECT DISTINCT RE1.name,
+                RE2.name
 FROM   rating R1,
        rating R2,
        reviewer RE1,
@@ -49,13 +49,13 @@ FROM   rating R1,
 WHERE  R1.mID = R2.mID
        AND R1.rID = RE1.rID
        AND R2.rID = RE2.rID
-       AND RE1.NAME < RE2.NAME
-ORDER  BY RE1.NAME,
-          RE2.NAME; 
+       AND RE1.name < RE2.name
+ORDER  BY RE1.name,
+          RE2.name; 
           
 -- Q06 For each rating that is the lowest (fewest stars) currently in the database, return the reviewer name, movie title, and number of stars.
 
-SELECT NAME,
+SELECT name,
        title,
        stars
 FROM   movie M,
@@ -78,7 +78,7 @@ ORDER  BY avg DESC,
 
 -- Q08 Find the names of all reviewers who have contributed three or more ratings. (As an extra challenge, try writing the query without HAVING or without COUNT.)
 
-SELECT NAME
+SELECT name
 FROM   reviewer
 WHERE  rID IN (SELECT rID
                FROM   rating
