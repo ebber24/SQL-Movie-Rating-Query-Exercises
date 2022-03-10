@@ -2,7 +2,7 @@
 
 SELECT title
 FROM   movie
-WHERE  director = "steven spielberg"; 
+WHERE  director = "Steven Spielberg"; 
 
 -- Q02 Find all years that have a movie that received a rating of 4 or 5, and sort them in increasing order.
 
@@ -33,7 +33,7 @@ WHERE  M.mID = Ra.mID
 
 -- Q05 Write a query to return the ratings data in a more readable format: reviewer name, movie title, stars, and ratingDate. Also, sort the data, first by reviewer name, then by movie title, and lastly by number of stars.
 
-SELECT Re.NAME,
+SELECT Re.name,
        title,
        stars,
        ratingdate
@@ -48,7 +48,7 @@ ORDER  BY Re.NAME,
 
 -- Q06 For all cases where the same reviewer rated the same movie twice and gave it a higher rating the second time, return the reviewer's name and the title of the movie.
 
-SELECT NAME,
+SELECT name,
        title
 FROM   movie
        INNER JOIN rating R1 using(mID)
